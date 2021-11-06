@@ -1,3 +1,3 @@
 # beamforming
 
-A project about implementing a DVB-S using MATLAB and a FPGA
+A project about implementing a DVB-S transmission using MATLAB and a FPGA
