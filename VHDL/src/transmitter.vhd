@@ -13,27 +13,42 @@ end transmitter;
 
 architecture Behavioral of transmitter is  
 
-    signal enable_int : std_logic;
-    signal data_int : std_logic;
+    signal enable_p2s : std_logic;
+    signal data_p2s : std_logic_vector(7 downto 0);
+
+    signal enable_enc : std_logic;
+    signal data_enc : std_logic;
 
 begin
+
+    inst_conv_interleaver : entity work.conv_interleaver
+        generic map (
+ N => 8 )
+        port map (
+            i_clk => clk,
+            i_rstb => rst,
+            i_data_enable => enable,
+            i_data => stream_in,
+            o_data_valid => enable_p2s,
+            o_data_out => data_p2s );
+
 
 
     inst_p2s : entity work.p2s
     Port map ( rst => rst,
                clk => clk,
-               enable_in => enable,
-               data_in => stream_in,
-               data_out => data_int,
-               enable_out => enable_int );
+               enable_in => enable_p2s,
+               data_in => data_p2s,
+               data_out => data_enc,
+               enable_out => enable_enc );
 
 
      
     inst_conv_enc :entity work.conv_enc
     Port map ( rst => rst,
                clk => clk,
-               enable => enable_int,
-               stream_in => data_int,
+               enable => enable_enc,
+               stream_in => data_enc,
                stream_out => stream_out(1 downto 0),
                data_valid => data_valid );
     

@@ -53,6 +53,7 @@ end process;
 
         data_in <= "11010010";
         enable_in <= '1';
+        assert (enable_out = '0') report "ERREUR" severity ERROR;
         
     wait for 10ns;
 
@@ -60,10 +61,13 @@ end process;
         
     for i in 7 downto 0 loop
         wait for 10ns;
-        assert (data_out = data_in(i)) report "ERREUR" severity error;
-        assert (data_out = NOT(data_in(i))) report "bit OK" severity note;
+        assert (data_out = data_in(i)) report "ERREUR" severity ERROR;
+        assert (enable_out = '1') report "ERREUR" severity ERROR;
     end loop;
-        
+    
+    wait for 10 ns;
+    
+    assert (enable_out = '0') report "enable_out ERREUR" severity ERROR;
 
     wait for 10 ns;
     
@@ -77,10 +81,12 @@ end process;
         for i in 7 downto 0 loop
             wait for 10ns;
             assert (data_out = data_in(i)) report "ERREUR" severity ERROR;
-            assert (data_out = NOT(data_in(i))) report "bit OK" severity NOTE;
+            assert (enable_out = '1') report "ERREUR" severity ERROR;
         end loop;
 
-    wait for 20 ns;
+    wait for 10 ns;
+        assert (enable_out = '0') report "enable_out ERREUR" severity ERROR;
+    wait for 10 ns;
 
     assert (false) report  "Simulation ended." severity failure;
 
