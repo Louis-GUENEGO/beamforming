@@ -13,18 +13,29 @@ end transmitter;
 
 architecture Behavioral of transmitter is  
 
-    component conv_enc is
-    Port ( rst : in STD_LOGIC;
-           clk : in STD_LOGIC;
-           enable : in STD_LOGIC;
-           stream_in : in STD_LOGIC;
-           stream_out : out STD_LOGIC_VECTOR(1 downto 0);
-           data_valid : out std_logic);
-    end component;
+    signal enable_int : std_logic;
+    signal data_int : std_logic;
 
 begin
 
-    inst_conv_enc : conv_enc port map(rst, clk, enable, stream_in(0), stream_out(1 downto 0), data_valid);
+
+    inst_p2s : entity work.p2s
+    Port map ( rst => rst,
+               clk => clk,
+               enable_in => enable,
+               data_in => stream_in,
+               data_out => data_int,
+               enable_out => enable_int );
+
+
+     
+    inst_conv_enc :entity work.conv_enc
+    Port map ( rst => rst,
+               clk => clk,
+               enable => enable_int,
+               stream_in => data_int,
+               stream_out => stream_out(1 downto 0),
+               data_valid => data_valid );
     
     stream_out(7 downto 2) <= "000000";
 
