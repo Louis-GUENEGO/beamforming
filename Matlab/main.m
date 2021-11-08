@@ -107,8 +107,8 @@ fprintf(      '|------------|-------------|----------|----------|---------------
 %% Simulation
 for i_snr = 1:length(channel_params.EbN0dB)
     instrreset
-    %s = serial('/dev/ttyUSB1');
-    s = serial('COM10');
+    %s = serial('/dev/ttyUSB1'); % Linux
+    s = serial('COM8'); % Windows
     %s.Baudrate=115200;
     %s.Baudrate=256000;
     s.Baudrate=921600;
