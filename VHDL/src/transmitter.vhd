@@ -13,6 +13,15 @@ end transmitter;
 
 architecture Behavioral of transmitter is  
 
+    signal enable_fifo : std_logic;
+    signal data_fifo : std_logic_vector(7 downto 0);
+    signal last : std_logic;
+    signal user_last : std_logic;
+    signal user_busy : std_logic;
+
+    signal enable_inter : std_logic;
+    signal data_inter : std_logic_vector(7 downto 0);
+
     signal enable_p2s : std_logic;
     signal data_p2s : std_logic_vector(7 downto 0);
 
@@ -21,18 +30,46 @@ architecture Behavioral of transmitter is
 
 begin
 
+    inst_RS : entity work.rs_encoder
+    port map (
+    -- Output
+    Data         => data_fifo,
+    Valid        => enable_fifo,
+    Last         => last,
+
+    -- Input
+    User_Data    => stream_in,
+    User_Valid   => enable,
+    User_Last    => user_last,
+    User_Busy    => user_busy,
+    
+    -- Infr
+    Clk          => clk,
+    Rst          => rst
+    );
+    
+    user_last <= '0';
+    user_busy <= '0';
+    
+
+
+    inst_buff : entity work.FIFO_P2S
+    Port map ( rst => rst,
+           clk => clk,
+           enable => enable_fifo,
+           shift_in => data_fifo,
+           shift_out => data_inter,
+           data_valid => enable_inter);
+
     inst_conv_interleaver : entity work.conv_interleaver
-        generic map (
- N => 8 )
+        generic map ( N => 8 )
         port map (
             i_clk => clk,
             i_rstb => rst,
-            i_data_enable => enable,
-            i_data => stream_in,
+            i_data_enable => enable_inter,
+            i_data => data_inter,
             o_data_valid => enable_p2s,
             o_data_out => data_p2s );
-
-
 
     inst_p2s : entity work.p2s
     Port map ( rst => rst,

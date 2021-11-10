@@ -60,12 +60,11 @@ end process;
         enable_in <= '0';
         
     for i in 7 downto 0 loop
-        wait for 10ns;
         assert (data_out = data_in(i)) report "ERREUR" severity ERROR;
         assert (enable_out = '1') report "ERREUR" severity ERROR;
+        wait for 10ns;
     end loop;
     
-    wait for 10 ns;
     
     assert (enable_out = '0') report "enable_out ERREUR" severity ERROR;
 
@@ -79,9 +78,9 @@ end process;
         enable_in <= '0';
 
         for i in 7 downto 0 loop
-            wait for 10ns;
             assert (data_out = data_in(i)) report "ERREUR" severity ERROR;
             assert (enable_out = '1') report "ERREUR" severity ERROR;
+            wait for 10ns;
         end loop;
 
     wait for 10 ns;

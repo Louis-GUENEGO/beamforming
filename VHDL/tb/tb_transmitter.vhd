@@ -19,11 +19,6 @@ architecture Behavioral of tb_transmitter is
 			   stream_out : out STD_LOGIC_VECTOR(7 downto 0);
 			   data_valid : out std_logic);
 	end component;
-
-
-	signal counter : unsigned(15 downto 0);
-	signal enable : std_logic;
-  
   
 	signal rst : STD_LOGIC;
 	signal clk : std_logic := '0';
@@ -1709,7 +1704,7 @@ begin
 			enable_shift_byte <= '1';
 			wait for 10 ns;
 			enable_shift_byte <= '0';
-			wait for 100 ns;
+			wait for 200 ns;
 
 		end loop;
 		wait;

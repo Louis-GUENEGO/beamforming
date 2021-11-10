@@ -14,7 +14,7 @@ end p2s;
 architecture Behavioral of p2s is  
 
        signal data_in_buf : unsigned(7 downto 0);
-       signal cpt : unsigned (3 downto 0);
+       signal cpt : unsigned (2 downto 0);
 
 begin
 
@@ -30,22 +30,20 @@ begin
         elsif ( (enable_in = '1') OR (cpt /= to_unsigned(0,cpt'length)) ) then
           
             if (cpt = to_unsigned(0,cpt'length)) then
-                data_in_buf <= unsigned(data_in);
+                data_in_buf <= shift_left(unsigned(data_in), 1);
                 cpt <= cpt + to_unsigned(1,cpt'length);
+                data_out <= data_in(7);
+                enable_out <= '1';  
                 
-            elsif (cpt < to_unsigned(9,cpt'length)) then
+            else
                 data_in_buf <= shift_left(data_in_buf,1);
                 enable_out <= '1';
                 data_out <= data_in_buf(7);
-                cpt <= cpt + to_unsigned(1,cpt'length);
-                
-            else
-                enable_out <= '0';
-                cpt <= to_unsigned(0,cpt'length);
-                
+                cpt <= cpt + to_unsigned(1,cpt'length);                
             end if;
-            
         
+        else 
+            enable_out <= '0';        
         end if;
         
         
