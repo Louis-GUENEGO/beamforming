@@ -12,6 +12,8 @@
 -- works at 100MHz with 115.200kbps transfer rate
 --
 ----------------------------------------------------------------------------------
+
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 

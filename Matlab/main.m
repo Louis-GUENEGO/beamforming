@@ -108,7 +108,7 @@ fprintf(      '|------------|-------------|----------|----------|---------------
 for i_snr = 1:length(channel_params.EbN0dB)
     instrreset
     %s = serial('/dev/ttyUSB1'); % Linux
-    s = serial('COM8'); % Windows
+    s = serial('COM4'); % Windows
     %s.Baudrate=115200;
     %s.Baudrate=256000;
     s.Baudrate=921600;
@@ -176,43 +176,43 @@ for i_snr = 1:length(channel_params.EbN0dB)
 
 
 
-            %%%%%%%%%%%%%%%%%%%%%%%%%%
-            %% HARDWARE IN THE LOOP
-            %%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-            %%%%%%%%%%%%%%%%%%%%%%%%%%
-            % RS + ITL + CC
-            
-            tx_scr_oct = bitxor(tx_oct, dvb_scramble); % scrambler
-            
-%             %generate test vectors for VHDL simulation
-%             if( tb_frame_nb ~=0)
-%                fprintf(tb_file, '%d \n', tx_scr_oct);
-%                tb_frame_nb = tb_frame_nb-1;
-%             end
-            
-            fwrite(s, tx_scr_oct);
-            cc_hw = uint8((fread(s, 8*pckt_per_frame*204))); % 13056
-            cc_hw_bin = de2bi(cc_hw,2,'left-msb');
-            tx_cc = reshape(cc_hw_bin',numel(cc_hw_bin),1);
-            %%%%%%%%%%%%%%%%%%%%%%%%%%
+%             %%%%%%%%%%%%%%%%%%%%%%%%%%
+%             %% HARDWARE IN THE LOOP
+%             %%%%%%%%%%%%%%%%%%%%%%%%%%
+%             
+%             %%%%%%%%%%%%%%%%%%%%%%%%%%
+%             % RS + ITL + CC
+%             
+%             tx_scr_oct = bitxor(tx_oct, dvb_scramble); % scrambler
+%             
+% %             %generate test vectors for VHDL simulation
+% %             if( tb_frame_nb ~=0)
+% %                fprintf(tb_file, '%d \n', tx_scr_oct);
+% %                tb_frame_nb = tb_frame_nb-1;
+% %             end
+%             
+%             fwrite(s, tx_scr_oct);
+%             cc_hw = uint8((fread(s, 8*pckt_per_frame*204))); % 13056
+%             cc_hw_bin = de2bi(cc_hw,2,'left-msb');
+%             tx_cc = reshape(cc_hw_bin',numel(cc_hw_bin),1);
+%             %%%%%%%%%%%%%%%%%%%%%%%%%%
             
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%
             %% ITL + CC
-%             tx_scr_oct = bitxor( tx_oct, dvb_scramble); % scrambler
-%             tx_rs_oct  = step  ( rs_enc, tx_scr_oct  ); % Encodage RS
-%             
-% %             %generate test vectors for VHDL simulation
-% %             if( tb_frame_nb ~=0)
-% %                fprintf(tb_file, '%d \n', tx_rs_oct);
-% %                tb_frame_nb = tb_frame_nb-1;
-% %             end
-%             
-%             fwrite(s, tx_rs_oct);
-%             cc_hw = uint8((fread(s, 8*pckt_per_frame*204))); % 13056
-%             cc_hw_bin = de2bi(cc_hw,2,'left-msb');
-%             tx_cc = reshape(cc_hw_bin',numel(cc_hw_bin),1);
+            tx_scr_oct = bitxor( tx_oct, dvb_scramble); % scrambler
+            tx_rs_oct  = step  ( rs_enc, tx_scr_oct  ); % Encodage RS
+            
+%             %generate test vectors for VHDL simulation
+%             if( tb_frame_nb ~=0)
+%                fprintf(tb_file, '%d \n', tx_rs_oct);
+%                tb_frame_nb = tb_frame_nb-1;
+%             end
+            
+            fwrite(s, tx_rs_oct);
+            cc_hw = uint8((fread(s, 8*pckt_per_frame*204))); % 13056
+            cc_hw_bin = de2bi(cc_hw,2,'left-msb');
+            tx_cc = reshape(cc_hw_bin',numel(cc_hw_bin),1);
             
             
             

@@ -13,11 +13,11 @@ end transmitter;
 
 architecture Behavioral of transmitter is  
 
-    signal enable_fifo : std_logic;
-    signal data_fifo : std_logic_vector(7 downto 0);
-    signal last : std_logic;
-    signal user_last : std_logic;
-    signal user_busy : std_logic;
+    --signal enable_fifo : std_logic;
+    --signal data_fifo : std_logic_vector(7 downto 0);
+    --signal last : std_logic;
+    --signal user_last : std_logic;
+    --signal user_busy : std_logic;
 
     signal enable_inter : std_logic;
     signal data_inter : std_logic_vector(7 downto 0);
