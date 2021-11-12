@@ -1,24 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 10/18/2018 04:43:25 PM
--- Design Name: 
--- Module Name: FIFO_P2S - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -36,6 +15,7 @@ end FIFO_P2S;
 architecture Behavioral of FIFO_P2S is
 
 type t_shift_reg is array (15 downto 0) of std_logic_vector(7 downto 0);
+
 signal shift_reg_in : t_shift_reg;
 signal shift_reg_out : t_shift_reg;
 signal data_counter : unsigned(7 downto 0);

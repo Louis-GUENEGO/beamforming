@@ -30,34 +30,33 @@ architecture Behavioral of transmitter is
 
 begin
 
-    inst_RS : entity work.rs_encoder
-    port map (
-    -- Output
-    Data         => data_fifo,
-    Valid        => enable_fifo,
-    Last         => last,
-
-    -- Input
-    User_Data    => stream_in,
-    User_Valid   => enable,
-    User_Last    => user_last,
-    User_Busy    => user_busy,
-    
-    -- Infr
-    Clk          => clk,
-    Rst          => rst
-    );
-    
-    user_last <= '0';
-    user_busy <= '0';
+--    inst_RS : entity work.rs_encoder
+--    port map (
+--            -- Output
+--            Data         => data_fifo,
+--            Valid        => enable_fifo,
+--            Last         => last,
+        
+--            -- Input
+--            User_Data    => stream_in,
+--            User_Valid   => enable,
+--            User_Last    => user_last,
+--            User_Busy    => user_busy,
+            
+--            -- Infr
+--            Clk          => clk,
+--            Rst          => rst
+--            );
+--    user_last <= '0';
+--    user_busy <= '0';
     
 
 
     inst_buff : entity work.FIFO_P2S
     Port map ( rst => rst,
            clk => clk,
-           enable => enable_fifo,
-           shift_in => data_fifo,
+           enable => enable,--enable_fifo,
+           shift_in => stream_in,--data_fifo,
            shift_out => data_inter,
            data_valid => enable_inter);
 

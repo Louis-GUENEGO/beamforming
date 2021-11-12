@@ -34,7 +34,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity UART_loop is
     Port ( rst : in STD_LOGIC;
            clk : in STD_LOGIC;
-           sw : in std_logic_vector(1 downto 0);
+           --sw : in std_logic_vector(1 downto 0);
            led : out std_logic_vector(15 downto 0);
            i_uart : in STD_LOGIC;
            o_uart : out STD_LOGIC);
@@ -88,33 +88,33 @@ signal dat : std_logic_vector(7 downto 0);
 signal scrambled_bit : std_logic;
 signal sent_byte : std_logic_vector(7 downto 0);
 signal data_valid : std_logic;
-signal en_counter, dv_counter : unsigned(13 downto 0) := (others => '0');
+--signal en_counter, dv_counter : unsigned(13 downto 0) := (others => '0');
 signal s_o_uart : std_logic;
 signal fifo_empty, fifo_afull, fifo_full : std_logic;
 
 begin
 
-	enable_counters:
-	process (clk, rst) begin
-		if (rising_edge(clk)) then
-         if (rst = '1') then
-               en_counter <= (others => '0');
-         elsif(dat_en = '1') then				
-				  en_counter <= en_counter + 1;				  
-         else
-               en_counter <= en_counter;		
-         end if;
-         if (rst = '1') then
-               dv_counter <= (others => '0');
-         elsif(data_valid = '1') then            
-              dv_counter <= dv_counter + 1;
-         else
-               dv_counter <= dv_counter;         
-         end if;
-		end if;
-	end process;
-	
-	--led(13 downto 0) <= std_logic_vector(en_counter) when sw(0) = '1' else std_logic_vector(dv_counter);
+
+--	enable_counters:
+--	process (clk, rst) begin
+--		if (rising_edge(clk)) then
+--         if (rst = '1') then
+--               en_counter <= (others => '0');
+--         elsif(dat_en = '1') then				
+--				  en_counter <= en_counter + 1;				  
+--         else
+--               en_counter <= en_counter;		
+--         end if;
+--         if (rst = '1') then
+--               dv_counter <= (others => '0');
+--         elsif(data_valid = '1') then            
+--              dv_counter <= dv_counter + 1;
+--         else
+--               dv_counter <= dv_counter;         
+--         end if;
+--		end if;
+--	end process;
+--  led(13 downto 0) <= std_logic_vector(en_counter) when sw(0) = '1' else std_logic_vector(dv_counter);
 	
 	led(15) <= i_uart;
 	led(14) <= s_o_uart;
