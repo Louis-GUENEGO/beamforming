@@ -13,11 +13,8 @@ end transmitter;
 
 architecture Behavioral of transmitter is  
 
-    --signal enable_fifo : std_logic;
-    --signal data_fifo : std_logic_vector(7 downto 0);
-    --signal last : std_logic;
-    --signal user_last : std_logic;
-    --signal user_busy : std_logic;
+    signal enable_fifo : std_logic;
+    signal data_fifo : std_logic_vector(7 downto 0);
 
     signal enable_inter : std_logic;
     signal data_inter : std_logic_vector(7 downto 0);
@@ -30,33 +27,28 @@ architecture Behavioral of transmitter is
 
 begin
 
---    inst_RS : entity work.rs_encoder
---    port map (
---            -- Output
---            Data         => data_fifo,
---            Valid        => enable_fifo,
---            Last         => last,
+    inst_RS : entity work.rs_counter
+    port map (
+            -- Output
+            Data         => data_fifo,
+            Valid        => enable_fifo,
         
---            -- Input
---            User_Data    => stream_in,
---            User_Valid   => enable,
---            User_Last    => user_last,
---            User_Busy    => user_busy,
+            -- Input
+            User_Data    => stream_in,
+            User_Valid   => enable,
             
---            -- Infr
---            Clk          => clk,
---            Rst          => rst
---            );
---    user_last <= '0';
---    user_busy <= '0';
+            -- Infr
+            Clk          => clk,
+            Rst          => rst
+            );
     
 
 
     inst_buff : entity work.FIFO_P2S
     Port map ( rst => rst,
            clk => clk,
-           enable => enable,--enable_fifo,
-           shift_in => stream_in,--data_fifo,
+           enable => enable_fifo,--enable_fifo,
+           shift_in => data_fifo,--data_fifo,
            shift_out => data_inter,
            data_valid => enable_inter);
 
