@@ -185,11 +185,11 @@ for i_snr = 1:length(channel_params.EbN0dB)
             
             tx_scr_oct = bitxor(tx_oct, dvb_scramble); % scrambler
             
-            %generate test vectors for VHDL simulation
-            if( tb_frame_nb ~=0)
-               fprintf(tb_file, '%d \n', tx_scr_oct);
-               tb_frame_nb = tb_frame_nb-1;
-            end
+%             %generate test vectors for VHDL simulation
+%             if( tb_frame_nb ~=0)
+%                fprintf(tb_file, '%d \n', tx_scr_oct);
+%                tb_frame_nb = tb_frame_nb-1;
+%             end
             
             fwrite(s, tx_scr_oct);
             cc_hw = uint8((fread(s, 8*pckt_per_frame*204))); % 13056
